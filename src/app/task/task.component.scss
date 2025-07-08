@@ -1,0 +1,28 @@
+.card {
+    margin: 0 auto;
+    max-width: 400px;
+}
+
+.card-footer {
+    display: flex;
+    padding: 16px;
+}
+
+.card-button {
+    margin-left: auto;
+}
+
+.form {
+    margin: 20px auto;
+    min-width: 150px;
+    max-width: 500px;
+    width: 65%;
+}
+
+.full-width {
+    width: 100%;    
+}
+
+p {
+    word-break: break-all;
+}

@@ -1,0 +1,38 @@
+@if (isLoaded) {
+    <section>
+        @if (!isEditing) {
+            <div>
+                <button routerLink="/tasks" mat-flat-button>Назад</button>
+                <mat-card class="card" appearance="outlined">
+                    <mat-card-header>
+                        <mat-card-title>{{task?.title}}</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <p>{{task?.description}}</p>
+                        <p>{{task?.status ? 'Выполнено' : 'Не выполнено'}}</p>
+                    </mat-card-content>
+                    <mat-card-footer class="card-footer">
+                        <mat-chip class="card-button" (click)="edit()">Редактировать</mat-chip>
+                    </mat-card-footer>
+                </mat-card>
+            </div>
+        } @else {
+            <div>
+                <form class="form">
+                    <mat-form-field class="full-width">
+                        <mat-label>Название задачи</mat-label>
+                        <input matInput [formControl]="taskForm.controls.title">
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>Описание задачи</mat-label>
+                        <textarea matInput  [formControl]="taskForm.controls.description"></textarea>
+                    </mat-form-field>
+                    <mat-card-footer class="card-footer">
+                        <mat-chip class="card-button" (click)="saveChanges()">Сохранить</mat-chip>
+                    </mat-card-footer>
+                </form>
+            </div>
+        }
+    </section>
+}
