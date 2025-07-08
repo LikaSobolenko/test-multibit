@@ -1,0 +1,45 @@
+.title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 16px;
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    margin-bottom: 8px;
+    background: #a9a9a92f;
+    border-radius: 12px;
+
+    .task-number {
+        margin-right: 8px;
+    }
+
+    .task-title {
+        flex: 1;
+        margin-right: 10px;
+
+        &.completed {
+            text-decoration: line-through;
+            opacity: 0.7;
+            color: #888;
+        }
+    }
+
+    .task-actions {
+        display: flex;
+        gap: 8px;
+        margin-left: auto;
+    }
+}
+
+:host ::ng-deep .mat-mdc-fab {
+    height: 40px;
+    width: 40px;
+}
+
+ol {
+    padding-inline-start: 20px
+}

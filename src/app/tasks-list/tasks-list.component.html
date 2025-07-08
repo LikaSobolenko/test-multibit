@@ -1,0 +1,27 @@
+<section>
+    <div class="title">
+        <h1>Список задач</h1>
+        <button mat-flat-button>Новая задача</button>
+        <!-- <button mat-mini-fab>
+            <mat-icon>add_to_photos</mat-icon>
+        </button> -->
+    </div>
+    <div>
+        <ol class="task-list">
+            @for (task of tasks; track task; let i = $index) {
+                <li class="task-item">
+                    <span class="task-number">{{ i + 1 }}.</span> 
+                    <span class="task-title" [class.completed]="task.status">{{ task.title }}</span>
+                    
+                    <div class="task-actions">
+                        <button mat-button="tonal" (click)="navigateTask(task.id)">Подробнее</button>
+                        <button mat-mini-fab (click)="deleteTask(task.id)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                        <mat-checkbox [(ngModel)]="task.status"></mat-checkbox>
+                    </div>
+                </li>
+            }
+        </ol>   
+    </div>
+</section>
