@@ -1,7 +1,7 @@
 <section>
     <div class="title">
         <h1>Список задач</h1>
-        <button mat-flat-button>Новая задача</button>
+        <button mat-flat-button (click)="addNewTask()">Добавить задачу</button>
         <!-- <button mat-mini-fab>
             <mat-icon>add_to_photos</mat-icon>
         </button> -->
@@ -14,8 +14,8 @@
                     <span class="task-title" [class.completed]="task.status">{{ task.title }}</span>
                     
                     <div class="task-actions">
-                        <button mat-button="tonal" (click)="navigateTask(task.id)">Подробнее</button>
-                        <button mat-mini-fab (click)="deleteTask(task.id)">
+                        <button mat-button="tonal" (click)="navigateTask(i)">Подробнее</button>
+                        <button mat-mini-fab (click)="deleteTask(i)">
                             <mat-icon>delete</mat-icon>
                         </button>
                         <mat-checkbox [(ngModel)]="task.status"></mat-checkbox>

@@ -1,1 +1,24 @@
-<p>new-task works!</p>
+<h2 mat-dialog-title>Создать новую задачу</h2>
+<mat-dialog-content>
+    <form class="form">
+                    <mat-form-field class="full-width">
+                        <mat-label>Название задачи</mat-label>
+                        <input matInput [formControl]="taskForm.controls.title" required minlength="3">
+                        @if (taskForm.controls.title.hasError('required')) {
+                            <mat-error class="error">Название для задачи обязательно</mat-error>
+                        }
+                        @if (taskForm.controls.title.hasError('minlength') && !taskForm.controls.title.hasError('required')) {
+                            <mat-error>Минимальная длина названия задачи 3 символа</mat-error>
+                        }
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>Описание задачи</mat-label>
+                        <textarea matInput  [formControl]="taskForm.controls.description"></textarea>
+                    </mat-form-field>
+                </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button="tonal" mat-dialog-close>Отменить</button>
+    <button mat-flat-button [disabled]="!taskForm.valid">Добавить задачу</button>
+</mat-dialog-actions>

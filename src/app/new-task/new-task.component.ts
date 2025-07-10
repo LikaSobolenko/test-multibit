@@ -1,11 +1,51 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import {
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogTitle,
+} from '@angular/material/dialog';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Task } from '../task.interface';
 
 @Component({
   selector: 'app-new-task',
-  imports: [],
+  imports: [
+    MatDialogTitle, 
+    MatDialogContent, 
+    MatDialogActions, 
+    MatDialogClose, 
+    MatButtonModule, 
+    MatChipsModule, 
+    MatFormFieldModule, 
+    MatInputModule,
+    MatButtonModule,
+    FormsModule,
+    ReactiveFormsModule],
   templateUrl: './new-task.component.html',
-  styleUrl: './new-task.component.scss'
+  styleUrl: './new-task.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NewTaskComponent {
+  public taskForm = new FormGroup({
+    title: new FormControl('', [
+      Validators.required,
+      Validators.minLength(3)
+    ]) ,
+    description: new FormControl('')
+  });
+
+  public saveChanges(): void {
+    // if (this.task) {
+    //   this.task.title = this.taskForm.value.title || '';
+    //   this.task.description = this.taskForm.value.description || '';
+    //   this.isEditing = false;
+    //   console.log('Обновленная задача:', this.task);
+    // }
+  }
 
 }

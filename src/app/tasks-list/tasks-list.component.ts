@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
@@ -6,13 +6,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
-
-interface Task {
-  id: number;
-  title: string;
-  description: string;
-  status: boolean;
-}
+import { MatDialog } from '@angular/material/dialog';
+import { NewTaskComponent } from '../new-task/new-task.component';
+import { Task } from '../task.interface';
 
 @Component({
   standalone: true,
@@ -26,54 +22,61 @@ interface Task {
     FormsModule
   ],
   templateUrl: './tasks-list.component.html',
-  styleUrl: './tasks-list.component.scss'
+  styleUrl: './tasks-list.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TasksListComponent {
-  public tasks: Task[] = [
-    {
-      id: 1,
-      title: "Утренняя зарядка",
-      description: "Сделать 15-минутный комплекс упражнений для бодрости",
-      status: false
-    },
-    {
-      id: 2,
-      title: "Планирование дня",
-      description: "Составить список дел на текущий день",
-      status: false
-    },
-    {
-      id: 3,
-      title: "Работа над проектом",
-      description: "Закоммитить изменения в текущий рабочий проект",
-      status: false
-    },
-    {
-      id: 4,
-      title: "Прогулка",
-      description: "30-минутная прогулка на свежем воздухе",
-      status: false
-    },
-    {
-      id: 5,
-      title: "Чтение",
-      description: "Прочитать 20 страниц книги",
-      status: false
-    }
-  ];
+  readonly dialog = inject(MatDialog);
+  public tasks: Task[] =  [
+  {
+    title: "Утренняя зарядка",
+    description: "15 минут упражнений для бодрости: приседания, отжимания, растяжка",
+    status: false
+  },
+  {
+    title: "Планирование дня",
+    description: "Составить список важных дел и расставить приоритеты на день",
+    status: false
+  },
+  {
+    title: "Изучение английского",
+    description: "Повторить 10 новых слов и посмотреть видео на английском",
+    status: false
+  },
+  {
+    title: "Прогулка",
+    description: "Гулять 30 минут",
+    status: false
+  },
+  {
+    title: "Медитация",
+    description: "10 минут тишины",
+    status: false
+  },
+  {
+    title: "Чтение",
+    status: false
+  },
+  {
+    title: "Запись мыслей",
+    status: false
+  }
+];
 
   constructor(
     public router: Router
     ) {}
 
-  public navigateTask(id: number) {
-    this.router.navigate(['/tasks', id]);
+  public addNewTask(): void {
+    this.dialog.open(NewTaskComponent);
+  }
+
+  public navigateTask(id: number): void {
     console.log(`ПЕРЕХОД К ЗАДАЧЕ ${id}`)
+    this.router.navigate(['/tasks', id]);
   }
 
   public deleteTask(id: number): void {
-    this.tasks = this.tasks.filter(task => task.id !== id);
+    this.tasks.splice(id, 1);
   }
-
-
 }

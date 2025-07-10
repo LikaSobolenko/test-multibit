@@ -21,7 +21,14 @@
                 <form class="form">
                     <mat-form-field class="full-width">
                         <mat-label>Название задачи</mat-label>
-                        <input matInput [formControl]="taskForm.controls.title">
+                        <input matInput [formControl]="taskForm.controls.title" required minlength="3">
+                        @if (taskForm.controls.title.hasError('required')) {
+                            <mat-error class="error">Название для задачи обязательно</mat-error>
+                        }
+                        @if (taskForm.controls.title.hasError('minlength') && !taskForm.controls.title.hasError('required')) {
+                            <mat-error>Минимальная длина названия задачи 3 символа</mat-error>
+                        }
+                        
                     </mat-form-field>
 
                     <mat-form-field class="full-width">
@@ -29,7 +36,7 @@
                         <textarea matInput  [formControl]="taskForm.controls.description"></textarea>
                     </mat-form-field>
                     <mat-card-footer class="card-footer">
-                        <mat-chip class="card-button" (click)="saveChanges()">Сохранить</mat-chip>
+                        <mat-chip class="card-button" (click)="saveChanges()" [disabled]="!taskForm.valid">Сохранить</mat-chip>
                     </mat-card-footer>
                 </form>
             </div>

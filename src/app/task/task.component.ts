@@ -5,16 +5,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormsModule, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
-
-interface Task {
-  id: number;
-  title: string;
-  description: string;
-  status: boolean;
-}
+import { Task } from '../task.interface';
 
 @Component({
   selector: 'app-task',
@@ -34,45 +28,50 @@ interface Task {
   styleUrls: ['./task.component.scss']
 })
 export class TaskComponent implements OnInit {
-  public tasks: Task[] = [
-    {
-      id: 1,
-      title: "Утренняя зарядка",
-      description: "Сделать 15-минутный комплекс упражнений для бодрости",
-      status: false
-    },
-    {
-      id: 2,
-      title: "Планирование дня",
-      description: "Составить список дел на текущий день",
-      status: false
-    },
-    {
-      id: 3,
-      title: "Работа над проектом",
-      description: "Закоммитить изменения в текущий рабочий проект",
-      status: false
-    },
-    {
-      id: 4,
-      title: "Прогулка",
-      description: "30-минутная прогулка на свежем воздухе",
-      status: false
-    },
-    {
-      id: 5,
-      title: "Чтение",
-      description: "Прочитать 20 страниц книги",
-      status: false
-    }
-  ];
+  public tasks: Task[] =  [
+  {
+    title: "Утренняя зарядка",
+    description: "15 минут упражнений для бодрости: приседания, отжимания, растяжка",
+    status: false
+  },
+  {
+    title: "Планирование дня",
+    description: "Составить список важных дел и расставить приоритеты на день",
+    status: false
+  },
+  {
+    title: "Изучение английского",
+    description: "Повторить 10 новых слов и посмотреть видео на английском",
+    status: false
+  },
+  {
+    title: "Прогулка",
+    description: "Гулять 30 минут",
+    status: false
+  },
+  {
+    title: "Медитация",
+    description: "10 минут тишины",
+    status: false
+  },
+  {
+    title: "Чтение",
+    status: false
+  },
+  {
+    title: "Запись мыслей",
+    status: false
+  }
+];
   
   public task?: Task;
   public isLoaded = false;
   public isEditing = false;
-  // public titleControl = new FormControl('');
   public taskForm = new FormGroup({
-    title: new FormControl(''),
+    title: new FormControl('', [
+      Validators.required,
+      Validators.minLength(3)
+    ]) ,
     description: new FormControl('')
   });
 
@@ -82,7 +81,7 @@ export class TaskComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       const idNumber = Number(id);
-      this.task = this.tasks.find(task => task.id === idNumber);
+      this.task = this.tasks[idNumber];
       
       if (this.task) {
         this.taskForm.patchValue({
