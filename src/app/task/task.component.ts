@@ -28,41 +28,7 @@ import { Task } from '../task.interface';
   styleUrls: ['./task.component.scss']
 })
 export class TaskComponent implements OnInit {
-  public tasks: Task[] =  [
-  {
-    title: "Утренняя зарядка",
-    description: "15 минут упражнений для бодрости: приседания, отжимания, растяжка",
-    status: false
-  },
-  {
-    title: "Планирование дня",
-    description: "Составить список важных дел и расставить приоритеты на день",
-    status: false
-  },
-  {
-    title: "Изучение английского",
-    description: "Повторить 10 новых слов и посмотреть видео на английском",
-    status: false
-  },
-  {
-    title: "Прогулка",
-    description: "Гулять 30 минут",
-    status: false
-  },
-  {
-    title: "Медитация",
-    description: "10 минут тишины",
-    status: false
-  },
-  {
-    title: "Чтение",
-    status: false
-  },
-  {
-    title: "Запись мыслей",
-    status: false
-  }
-];
+  public tasks: Task[] =  [];
   
   public task?: Task;
   public isLoaded = false;

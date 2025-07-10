@@ -5,12 +5,14 @@ import {
   MatDialogClose,
   MatDialogContent,
   MatDialogTitle,
+  MatDialogRef
 } from '@angular/material/dialog';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Task } from '../task.interface';
+import { IndexedDbService } from '../indexed-db.service';
 
 @Component({
   selector: 'app-new-task',
@@ -39,13 +41,25 @@ export class NewTaskComponent {
     description: new FormControl('')
   });
 
-  public saveChanges(): void {
-    // if (this.task) {
-    //   this.task.title = this.taskForm.value.title || '';
-    //   this.task.description = this.taskForm.value.description || '';
-    //   this.isEditing = false;
-    //   console.log('Обновленная задача:', this.task);
-    // }
-  }
+  constructor(
+    private indexedDBService: IndexedDbService,
+    public dialogRef: MatDialogRef<NewTaskComponent>
+    ) {}
 
+    async addTask() {
+    if (this.taskForm.value.title) {
+      try {
+        await this.indexedDBService.addTask({
+          title: this.taskForm.value.title!,
+          description: this.taskForm.value.description || undefined,
+          status: false
+        });
+        
+        // Закрываем диалог с флагом успешного добавления
+        this.dialogRef.close('success');
+      } catch (error) {
+        console.error('Ошибка при добавлении задачи:', error);
+      }
+    }
+  }
 }

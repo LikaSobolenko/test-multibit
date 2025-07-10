@@ -20,5 +20,5 @@
 </mat-dialog-content>
 <mat-dialog-actions>
     <button mat-button="tonal" mat-dialog-close>Отменить</button>
-    <button mat-flat-button [disabled]="!taskForm.valid">Добавить задачу</button>
+    <button mat-flat-button [disabled]="!taskForm.valid" (click)="addTask()">Добавить задачу</button>
 </mat-dialog-actions>
