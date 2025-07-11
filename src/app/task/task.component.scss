@@ -23,6 +23,19 @@
     width: 100%;    
 }
 
+.card-footer {
+    align-items: center;
+    justify-content: space-between;
+
+    .status {
+        font-weight: 100;
+    }
+}
+
+.back-button {
+    margin-bottom: 10px;
+}
+
 p {
     word-break: break-all;
 }

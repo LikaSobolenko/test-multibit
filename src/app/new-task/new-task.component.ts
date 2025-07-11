@@ -11,7 +11,6 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Task } from '../task.interface';
 import { IndexedDbService } from '../indexed-db.service';
 
 @Component({
@@ -55,7 +54,6 @@ export class NewTaskComponent {
           status: false
         });
         
-        // Закрываем диалог с флагом успешного добавления
         this.dialogRef.close('success');
       } catch (error) {
         console.error('Ошибка при добавлении задачи:', error);

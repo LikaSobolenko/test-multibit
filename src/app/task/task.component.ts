@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatCardModule } from '@angular/material/card';
@@ -9,6 +9,8 @@ import { FormsModule, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { Task } from '../task.interface';
+import { IndexedDbService } from '../indexed-db.service';;
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-task',
@@ -25,9 +27,11 @@ import { Task } from '../task.interface';
     ReactiveFormsModule
   ],
   templateUrl: './task.component.html',
-  styleUrls: ['./task.component.scss']
+  styleUrls: ['./task.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TaskComponent implements OnInit {
+  private routeSub!: Subscription;
   public tasks: Task[] =  [];
   
   public task?: Task;
@@ -41,38 +45,55 @@ export class TaskComponent implements OnInit {
     description: new FormControl('')
   });
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, 
+    private indexedDBService: IndexedDbService,
+    private cdr: ChangeDetectorRef) { }
+    
 
-  ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      const idNumber = Number(id);
-      this.task = this.tasks[idNumber];
+
+  async ngOnInit() {
+    this.routeSub = this.route.paramMap.subscribe(async params => {
+      const id = params.get('id');
       
-      if (this.task) {
-        this.taskForm.patchValue({
-          title: this.task.title,
-          description: this.task.description
-        });
-        this.isLoaded = true;
+      if (id) {
+        const idNumber = Number(id);
+        if (!this.task) {this.task = await this.indexedDBService.getTaskById(idNumber);}
+        
+        if (this.task) {
+          this.taskForm.patchValue({
+            title: this.task.title,
+            description: this.task.description
+          });
+          this.isLoaded = true;
+        } else {
+          console.error(`Задача с ID ${idNumber} не найдена`);
+        }
       } else {
-        console.error(`Задача не найдена`);
+        console.error('ID задачи не указан');
       }
-    } else {
-      console.error('Нет id');
-    }
+      this.cdr.detectChanges();
+    });
   }
+
 
   public edit(): void {
     this.isEditing = true;
   }
 
-  public saveChanges(): void {
+  async saveChanges() {
+    this.isEditing = false;
+
     if (this.task) {
       this.task.title = this.taskForm.value.title || '';
       this.task.description = this.taskForm.value.description || '';
-      this.isEditing = false;
-      console.log('Обновленная задача:', this.task);
+      await this.indexedDBService.updateTask(this.task);
+      this.cdr.detectChanges();
+    }
+  }
+    
+  ngOnDestroy() {
+    if (this.routeSub) {
+      this.routeSub.unsubscribe();
     }
   }
 }

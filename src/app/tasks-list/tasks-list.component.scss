@@ -30,9 +30,15 @@
 
     .task-actions {
         display: flex;
+        flex-wrap: wrap;
         gap: 8px;
         margin-left: auto;
     }
+}
+
+.form-field {
+    margin-left: 5px;
+    width: calc(100% - 53px);
 }
 
 :host ::ng-deep .mat-mdc-fab {
@@ -41,5 +47,5 @@
 }
 
 ol {
-    padding-inline-start: 20px
+    padding-inline-start: 0
 }

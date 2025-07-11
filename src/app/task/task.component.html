@@ -2,17 +2,17 @@
     <section>
         @if (!isEditing) {
             <div>
-                <button routerLink="/tasks" mat-flat-button>Назад</button>
+                <button routerLink="/tasks" mat-stroked-button class="back-button">Назад</button>
                 <mat-card class="card" appearance="outlined">
                     <mat-card-header>
                         <mat-card-title>{{task?.title}}</mat-card-title>
                     </mat-card-header>
                     <mat-card-content>
                         <p>{{task?.description}}</p>
-                        <p>{{task?.status ? 'Выполнено' : 'Не выполнено'}}</p>
                     </mat-card-content>
                     <mat-card-footer class="card-footer">
-                        <mat-chip class="card-button" (click)="edit()">Редактировать</mat-chip>
+                        <p class="status">{{task?.status ? 'Выполнено' : 'Не выполнено'}}</p>
+                        <button mat-flat-button (click)="edit()">Редактировать</button>
                     </mat-card-footer>
                 </mat-card>
             </div>
